@@ -1,8 +1,24 @@
+import processing.core.*; 
+import processing.data.*; 
+import processing.event.*; 
+import processing.opengl.*; 
+
+import java.util.HashMap; 
+import java.util.ArrayList; 
+import java.io.File; 
+import java.io.BufferedReader; 
+import java.io.PrintWriter; 
+import java.io.InputStream; 
+import java.io.OutputStream; 
+import java.io.IOException; 
+
+public class Starfield extends PApplet {
+
 public static final int NUM_PARTICLES = 64;
 NormalParticle party;
 Particle [] parties;
 //your code here
-void setup()
+public void setup()
 {
 	//your code here
 	size(255,255);
@@ -13,7 +29,7 @@ void setup()
 	}
 	party = new NormalParticle();
 }
-void draw()
+public void draw()
 {
 	//your code here
 	for(int i = 0;i<parties.length;i++){
@@ -25,7 +41,7 @@ class NormalParticle implements Particle
 {
 	//your code here
 	private double X_pos,Y_pos,Angle_val,Speed_val;
-	private color P_color;
+	private int P_color;
 	NormalParticle(){
 		X_pos=(double)(width>>1);
 		Y_pos=(double)(height>>1);
@@ -52,13 +68,13 @@ class OddballParticle implements Particle
 	//your code here
 	//your code here
 	private double X_pos,Y_pos,Angle_val,Speed_val;
-	private color P_color;
+	private int P_color;
 	OddballParticle(){
 		X_pos=(double)(width>>1);
 		Y_pos=(double)(height>>1);
 		Angle_val = Math.random()*(Math.PI*2);
 		Speed_val = 10;
-		P_color = #429839;
+		P_color = 0xff429839;
 	}
 	public void move(){
 		X_pos += (Math.cos(Angle_val)*Speed_val)+(Math.random()*8);
@@ -69,7 +85,16 @@ class OddballParticle implements Particle
 		ellipse((int)X_pos,(int)Y_pos,10,10);
 	}
 }
-void mousePressed(){
+public void mousePressed(){
 	redraw();
 }
 
+  static public void main(String[] passedArgs) {
+    String[] appletArgs = new String[] { "Starfield" };
+    if (passedArgs != null) {
+      PApplet.main(concat(appletArgs, passedArgs));
+    } else {
+      PApplet.main(appletArgs);
+    }
+  }
+}
