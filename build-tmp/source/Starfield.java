@@ -15,26 +15,25 @@ import java.io.IOException;
 public class Starfield extends PApplet {
 
 public static final int NUM_PARTICLES = 64;
-NormalParticle party;
+//NormalParticle party;
 Particle [] parties;
 //your code here
 public void setup()
 {
 	//your code here
 	size(255,255);
-	parties = new Particle[NUM_PARTICLES];
-	parties[0] = new OddballParticle();
-	for(int i = 1;i<parties.length;i++){
-		parties[i] = new NormalParticle();
-	}
-	party = new NormalParticle();
+	init_parties();
+
+	frameRate(10);
+	//party = new NormalParticle();
 }
 public void draw()
 {
+	background(128);
 	//your code here
-	for(int i = 0;i<parties.length;i++){
-		parties[i].show();
+	for(int i = parties.length-1;i>=0;i--){
 		parties[i].move();
+		parties[i].show();
 	}
 }
 class NormalParticle implements Particle
@@ -69,16 +68,18 @@ class OddballParticle implements Particle
 	//your code here
 	private double X_pos,Y_pos,Angle_val,Speed_val;
 	private int P_color;
+	int offset_val;
 	OddballParticle(){
 		X_pos=(double)(width>>1);
 		Y_pos=(double)(height>>1);
 		Angle_val = Math.random()*(Math.PI*2);
 		Speed_val = 10;
 		P_color = 0xff429839;
+		offset_val = 16;
 	}
 	public void move(){
-		X_pos += (Math.cos(Angle_val)*Speed_val)+(Math.random()*8);
-		Y_pos += (Math.sin(Angle_val)*Speed_val)+(Math.random()*8);
+		X_pos += (Math.cos(Angle_val)*Speed_val)+(Math.random()*offset_val);
+		Y_pos += (Math.sin(Angle_val)*Speed_val)+(Math.random()*offset_val);
 	}
 	public void show(){
 		fill(P_color);
@@ -86,7 +87,16 @@ class OddballParticle implements Particle
 	}
 }
 public void mousePressed(){
+	background(128);
+	init_parties();
 	redraw();
+}
+public void init_parties(){
+	parties = new Particle[NUM_PARTICLES];
+	parties[0] = new OddballParticle();
+	for(int i = 1;i<parties.length;i++){
+		parties[i] = new NormalParticle();
+	}
 }
 
   static public void main(String[] passedArgs) {
